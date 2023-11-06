@@ -78,3 +78,9 @@
 /Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/obj/Debug/net7.0/robotto-backend.pdb
 /Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/obj/Debug/net7.0/robotto-backend.genruntimeconfig.cache
 /Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/obj/Debug/net7.0/ref/robotto-backend.dll
+/Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/bin/Debug/net7.0/Azure.Core.dll
+/Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/bin/Debug/net7.0/Azure.Storage.Blobs.dll
+/Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/bin/Debug/net7.0/Azure.Storage.Common.dll
+/Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/bin/Debug/net7.0/Microsoft.Bcl.AsyncInterfaces.dll
+/Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/bin/Debug/net7.0/System.IO.Hashing.dll
+/Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/bin/Debug/net7.0/System.Memory.Data.dll

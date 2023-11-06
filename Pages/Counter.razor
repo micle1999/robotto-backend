@@ -1,4 +1,6 @@
-﻿@page "/counter"
+﻿@using RobottoBackend.Services
+@inject AzuriteService azurite
+@page "/counter"
 
 <PageTitle>Counter</PageTitle>
 
@@ -13,6 +15,6 @@
 
     private void IncrementCount()
     {
-        currentCount++;
+        azurite.GetBlobCount();
     }
 }

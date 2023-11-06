@@ -1,15 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "KZpjN6VBk0uw6CJu4JoxGmcsoO3UfExTyeZuNSq/3yHs+o2S7BO6Bs1aKmkfDQysNQfb+0ha1PDdvWpx0Te5Lg==",
+  "dgSpecHash": "kk2YDUdFQmsQjqnep+sz0Dq5Fs6mz2MoopQxg6jBIhqsXh2LguBlznP+VJdUgTJXhm6V6f/zrWc86r/mu8BIWA==",
   "success": true,
   "projectFilePath": "/Users/michalsalaga/Documents/Uni/EiT - Robotto/blazor-app/robotto-backend/robotto-backend.csproj",
   "expectedPackageFiles": [
+    "/Users/michalsalaga/.nuget/packages/azure.core/1.35.0/azure.core.1.35.0.nupkg.sha512",
+    "/Users/michalsalaga/.nuget/packages/azure.storage.blobs/12.18.0/azure.storage.blobs.12.18.0.nupkg.sha512",
+    "/Users/michalsalaga/.nuget/packages/azure.storage.common/12.17.0/azure.storage.common.12.17.0.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/microsoft.aspnetcore.cryptography.internal/7.0.3/microsoft.aspnetcore.cryptography.internal.7.0.3.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/7.0.3/microsoft.aspnetcore.cryptography.keyderivation.7.0.3.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/microsoft.aspnetcore.diagnostics.entityframeworkcore/7.0.3/microsoft.aspnetcore.diagnostics.entityframeworkcore.7.0.3.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/microsoft.aspnetcore.identity.entityframeworkcore/7.0.3/microsoft.aspnetcore.identity.entityframeworkcore.7.0.3.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/microsoft.aspnetcore.identity.ui/7.0.3/microsoft.aspnetcore.identity.ui.7.0.3.nupkg.sha512",
+    "/Users/michalsalaga/.nuget/packages/microsoft.bcl.asyncinterfaces/1.1.1/microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/microsoft.data.sqlite.core/7.0.3/microsoft.data.sqlite.core.7.0.3.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/microsoft.entityframeworkcore/7.0.3/microsoft.entityframeworkcore.7.0.3.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/microsoft.entityframeworkcore.abstractions/7.0.3/microsoft.entityframeworkcore.abstractions.7.0.3.nupkg.sha512",
@@ -39,9 +43,15 @@
     "/Users/michalsalaga/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.4/sqlitepclraw.lib.e_sqlite3.2.1.4.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/sqlitepclraw.provider.e_sqlite3/2.1.4/sqlitepclraw.provider.e_sqlite3.2.1.4.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/system.codedom/4.4.0/system.codedom.4.4.0.nupkg.sha512",
+    "/Users/michalsalaga/.nuget/packages/system.diagnostics.diagnosticsource/6.0.1/system.diagnostics.diagnosticsource.6.0.1.nupkg.sha512",
+    "/Users/michalsalaga/.nuget/packages/system.io.hashing/6.0.0/system.io.hashing.6.0.0.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
+    "/Users/michalsalaga/.nuget/packages/system.memory.data/1.0.2/system.memory.data.1.0.2.nupkg.sha512",
+    "/Users/michalsalaga/.nuget/packages/system.numerics.vectors/4.5.0/system.numerics.vectors.4.5.0.nupkg.sha512",
+    "/Users/michalsalaga/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/Users/michalsalaga/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
-    "/Users/michalsalaga/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512"
+    "/Users/michalsalaga/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512",
+    "/Users/michalsalaga/.nuget/packages/system.threading.tasks.extensions/4.5.4/system.threading.tasks.extensions.4.5.4.nupkg.sha512"
   ],
   "logs": []
 }
