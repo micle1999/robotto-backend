@@ -1,35 +1,16 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Azure.Storage.Blobs;
 
 namespace RobottoBackend.Services
 {
     
-    public class AzuriteService
+    public class AzuriteService : IAzuriteService
     {
-        private readonly IConfiguration _configuration;
         private readonly BlobContainerClient _client;
-        private readonly ILogger<AzuriteService> _logger;
-        private readonly string _containerName = "testcontainer";
-        private string _connectionString;
 
-        public AzuriteService(IConfiguration configuration, ILogger<AzuriteService> logger)
-        {
-            _logger = logger;
-            _configuration = configuration;
-            _connectionString = configuration["Azurite:AzuriteConnection"] ?? "";
-            _client = new BlobContainerClient(_connectionString, _containerName);
-        }
-
-        public async Task EnsureContainerCreated()
-        {
-            var blobServiceClient = new BlobServiceClient(_connectionString);
-
-            if (!await ContainerExists(blobServiceClient))
-            {
-                await blobServiceClient.CreateBlobContainerAsync(_containerName);
-            }
-        }        
+        public AzuriteService(BlobContainerClient client)
+        {            
+            _client = client;
+        }           
 
         public async Task<bool> CreateBlobFileAsync(string filename, byte[] data)
         {
@@ -45,7 +26,7 @@ namespace RobottoBackend.Services
                 await using var memoryStream = new MemoryStream(data, false);
                 var response = await _client.UploadBlobAsync(filename, memoryStream);
             }
-            catch(Exception exception)
+            catch
             {
                 // do something
                 return false;
@@ -76,8 +57,6 @@ namespace RobottoBackend.Services
         public int GetBlobCount()
         {
             // Gets the number of blobs in a given container
-            _logger.LogInformation("Logging Get Blob Count");
-
             return _client.GetBlobs().Count();
         }
 
@@ -85,18 +64,6 @@ namespace RobottoBackend.Services
         {
             // Check and returns a given blob by its filename
             return _client.GetBlobClient(filename);
-        }
-
-        private async Task<bool> ContainerExists(BlobServiceClient blobServiceClient)
-        {
-            var containers = blobServiceClient.GetBlobContainersAsync(prefix: _containerName);
-            await foreach (var page in containers)
-            {
-                if (page.Name == _containerName)
-                    return true;
-            }
-            
-            return false;
         }
     }
 }

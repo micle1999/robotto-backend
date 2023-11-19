@@ -1,5 +1,5 @@
 ﻿@using RobottoBackend.Services
-@inject AzuriteService azurite
+@inject IAzuriteService azurite
 @page "/counter"
 
 <PageTitle>Counter</PageTitle>
@@ -13,9 +13,8 @@
 @code {
     private int currentCount = 0;
 
-    private async Task IncrementCount()
+    private void IncrementCount()
     {
-        await azurite.EnsureContainerCreated();
         Console.WriteLine($"Blob count: {azurite.GetBlobCount()}");
     }
 }

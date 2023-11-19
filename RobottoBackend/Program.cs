@@ -1,15 +1,11 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 using robotto_backend.Areas.Identity;
 using robotto_backend.Data;
-using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
 using RobottoBackend.Services;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +21,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddSingleton<AzuriteService>();
-
-
+builder.Services.AddSingleton<ICosmosDbService>(InitializeCosmosClientInstanceAsync(
+    builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+builder.Services.AddSingleton<IAzuriteService>(InitializeAzuriteClientInstanceAsync(
+    builder.Configuration.GetSection("Azurite")).GetAwaiter().GetResult());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -55,3 +52,60 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
+
+static async Task<CosmosDbService> InitializeCosmosClientInstanceAsync(IConfigurationSection configurationSection)
+{
+    string databaseName = configurationSection.GetSection("DatabaseName").Value ?? "";
+    string containerName = configurationSection.GetSection("ContainerName").Value ?? "";
+    string account = configurationSection.GetSection("Account").Value ?? "";
+
+    // If key is not set, assume we're using managed identity
+    string key = configurationSection.GetSection("Key").Value ?? "";
+
+    CosmosClientOptions options = new ()
+    {
+        HttpClientFactory = () => new HttpClient(new HttpClientHandler()
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        }),
+        ConnectionMode = ConnectionMode.Gateway,
+        LimitToEndpoint = true
+    };
+    
+    CosmosClient client;
+    client = new CosmosClient(account, key, clientOptions: options);
+    
+    CosmosDbService cosmosDbService = new CosmosDbService(client, databaseName, containerName);
+    DatabaseResponse databaseResponse = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+    await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+    return cosmosDbService;
+}
+
+static async Task<AzuriteService> InitializeAzuriteClientInstanceAsync(IConfigurationSection configurationSection)
+{
+    string connectionString = configurationSection.GetSection("ConnectionString").Value ?? "";;
+    string containerName = configurationSection.GetSection("ContainerName").Value ?? "";
+
+    var blobServiceClient = new BlobServiceClient(connectionString);
+
+    if (!await ContainerExists(blobServiceClient, containerName))
+    {
+        await blobServiceClient.CreateBlobContainerAsync(containerName);
+    }
+
+    var blobContainerClient = new BlobContainerClient(connectionString, containerName);
+    return new AzuriteService(blobContainerClient);
+}
+
+static async Task<bool> ContainerExists(BlobServiceClient blobServiceClient, string containerName)
+{
+    var containers = blobServiceClient.GetBlobContainersAsync(prefix: containerName);
+    await foreach (var page in containers)
+    {
+        if (page.Name == containerName)
+            return true;
+    }
+    
+    return false;
+}
