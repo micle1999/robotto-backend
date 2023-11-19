@@ -27,17 +27,24 @@ nupkg/
 *.sln.docstates
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
+Debug/
+debug/
+DebugPublic/
+debugPublic/
+Release/
+release/
+Releases/
+releases/
 x64/
 x86/
 build/
 bld/
-[Bb]in/
-[Oo]bj/
-[Oo]ut/
+Bin/
+bin/
+Obj/
+obj/
+Out/
+out/
 msbuild.log
 msbuild.err
 msbuild.wrn
