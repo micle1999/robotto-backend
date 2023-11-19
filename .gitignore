@@ -475,3 +475,23 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+bin/Debug/net7.0/robotto-backend
+bin/Debug/net7.0/robotto-backend.dll
+bin/Debug/net7.0/robotto-backend.pdb
+bin/Debug/net7.0/robotto-backend.staticwebassets.runtime.json
+obj/Debug/net7.0/apphost
+obj/Debug/net7.0/robotto-backend.assets.cache
+obj/Debug/net7.0/robotto-backend.csproj.AssemblyReference.cache
+obj/Debug/net7.0/robotto-backend.csproj.CoreCompileInputs.cache
+obj/Debug/net7.0/robotto-backend.csproj.FileListAbsolute.txt
+obj/Debug/net7.0/robotto-backend.dll
+obj/Debug/net7.0/robotto-backend.GeneratedMSBuildEditorConfig.editorconfig
+obj/Debug/net7.0/robotto-backend.genruntimeconfig.cache
+obj/Debug/net7.0/robotto-backend.pdb
+obj/Debug/net7.0/staticwebassets.build.json
+obj/Debug/net7.0/staticwebassets.development.json
+obj/Debug/net7.0/staticwebassets.pack.json
+obj/project.assets.json
+obj/project.nuget.cache
+obj/robotto-backend.csproj.nuget.dgspec.json
+obj/robotto-backend.csproj.nuget.g.props
