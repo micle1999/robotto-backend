@@ -13,8 +13,9 @@
 @code {
     private int currentCount = 0;
 
-    private void IncrementCount()
+    private async Task IncrementCount()
     {
-        azurite.GetBlobCount();
+        await azurite.EnsureContainerCreated();
+        Console.WriteLine($"Blob count: {azurite.GetBlobCount()}");
     }
 }

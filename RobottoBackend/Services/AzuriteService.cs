@@ -7,17 +7,29 @@ namespace RobottoBackend.Services
     
     public class AzuriteService
     {
-        private readonly IConfiguration configuration;
-        private readonly BlobContainerClient client;
+        private readonly IConfiguration _configuration;
+        private readonly BlobContainerClient _client;
+        private readonly ILogger<AzuriteService> _logger;
+        private readonly string _containerName = "testcontainer";
+        private string _connectionString;
 
-        private readonly ILogger<AzuriteService> logger;
-
-        public AzuriteService(IConfiguration _configuration, ILogger<AzuriteService> _logger)
+        public AzuriteService(IConfiguration configuration, ILogger<AzuriteService> logger)
         {
-            this.logger = _logger;
-            this.configuration = _configuration;
-            this.client = new BlobContainerClient(configuration["Azurite:AzuriteConnection"], "testContainer");
+            _logger = logger;
+            _configuration = configuration;
+            _connectionString = configuration["Azurite:AzuriteConnection"] ?? "";
+            _client = new BlobContainerClient(_connectionString, _containerName);
         }
+
+        public async Task EnsureContainerCreated()
+        {
+            var blobServiceClient = new BlobServiceClient(_connectionString);
+
+            if (!await ContainerExists(blobServiceClient))
+            {
+                await blobServiceClient.CreateBlobContainerAsync(_containerName);
+            }
+        }        
 
         public async Task<bool> CreateBlobFileAsync(string filename, byte[] data)
         {
@@ -31,7 +43,7 @@ namespace RobottoBackend.Services
             {
                 // Convert the byte data into a stream so we can upload it into azurite
                 await using var memoryStream = new MemoryStream(data, false);
-                var response = await client.UploadBlobAsync(filename, memoryStream);
+                var response = await _client.UploadBlobAsync(filename, memoryStream);
             }
             catch(Exception exception)
             {
@@ -58,20 +70,33 @@ namespace RobottoBackend.Services
         public async Task<bool> DeleteBlobFileAsync(string filename)
         {
             // Deletes a blob if it exists
-            return await client.DeleteBlobIfExistsAsync(filename);
+            return await _client.DeleteBlobIfExistsAsync(filename);
         }
 
         public int GetBlobCount()
         {
             // Gets the number of blobs in a given container
-            logger.LogInformation("Logging Get Blob Count");
-            return client.GetBlobs().Count();
+            _logger.LogInformation("Logging Get Blob Count");
+
+            return _client.GetBlobs().Count();
         }
 
         private BlobClient GetBlob(string filename)
         {
             // Check and returns a given blob by its filename
-            return client.GetBlobClient(filename);
+            return _client.GetBlobClient(filename);
+        }
+
+        private async Task<bool> ContainerExists(BlobServiceClient blobServiceClient)
+        {
+            var containers = blobServiceClient.GetBlobContainersAsync(prefix: _containerName);
+            await foreach (var page in containers)
+            {
+                if (page.Name == _containerName)
+                    return true;
+            }
+            
+            return false;
         }
     }
 }
