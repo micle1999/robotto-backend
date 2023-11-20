@@ -35,6 +35,27 @@ namespace RobottoBackend.Services
             return true;
         }
 
+        public async Task<bool> CreateBlobFileAsync(string filename, Stream stream)
+        {
+            // Check if a blob with a given filename exists - if so throw an exception
+            if(GetBlob(filename).Exists())
+            {
+                throw new Exception("Blob already exists");
+            }
+            
+            try
+            {
+                var response = await _client.UploadBlobAsync(filename, stream);
+            }
+            catch
+            {
+                // do something
+                return false;
+            }
+        
+            return true;
+        }
+
         public async Task<Stream?> GetBlobFileAsync(string filename)
         {
             // Gets a given blob and returns null if it doesn't exist

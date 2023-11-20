@@ -1,0 +1,46 @@
+@using RobottoBackend.Services
+@inject IAzuriteService AzuriteService
+@page "/blob-storage"
+
+<PageTitle>Blob Storage</PageTitle>
+
+<h1>Blob Storage</h1>
+
+<p>Select file to upload:</p>
+<InputFile OnChange="@(async (e) => await UploadFile(e))" />
+<p style="color: red;">@infoMessage</p>
+
+<br/>
+<p role="status">Blob count: @blobCount</p>
+
+@code {   
+    private int blobCount = 0;
+    private string infoMessage = "";
+
+    protected override void OnInitialized()
+    {
+        UpdateBlobCount();
+    }
+
+    private void UpdateBlobCount()
+    {
+        blobCount = AzuriteService.GetBlobCount();
+    }
+
+    private async Task UploadFile(InputFileChangeEventArgs e)
+    {
+        infoMessage = "Uploading file...";
+
+        var result = await AzuriteService.CreateBlobFileAsync(e.File.Name,
+            e.File.OpenReadStream());
+
+        if (result)
+        {
+            infoMessage = "File uploaded successfully.";
+            UpdateBlobCount();
+        }
+        else
+            infoMessage = "File could not be uploaded.";
+
+    }
+}
