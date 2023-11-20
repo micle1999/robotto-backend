@@ -10,8 +10,6 @@
 <InputFile OnChange="@(async (e) => await UploadFile(e))" />
 <p style="color: red;">@infoMessage</p>
 
-<p role="status">Blob count: @blobCount</p>
-
 @if (blobNames == null)
 {
     <p><em>Loading...</em></p>
@@ -21,7 +19,8 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Blob Name</th>                
+                <th>Blob Name</th>
+                <th></th>                          
             </tr>
         </thead>
         <tbody>
@@ -29,12 +28,15 @@ else
             {
                 <tr>
                     <td>@blobName</td>
-                </tr>
+                    <td>
+                        <input type="button" class="btn btn-danger" @onclick="(async () => await DeleteFile(blobName))" value="Delete" />
+                    </td>
+                </tr>                
             }
         </tbody>
     </table>
 }
-
+<p role="status"><b>Blob count: </b>@blobCount</p>
 
 @code {   
     private int blobCount = 0;
@@ -67,5 +69,20 @@ else
         else
             infoMessage = "File could not be uploaded.";
 
+    }
+
+    private async Task DeleteFile(string fileName)
+    {
+        infoMessage = "Deleting file...";
+
+        var result = await AzuriteService.DeleteBlobFileAsync(fileName);
+
+        if (result)
+        {
+            infoMessage = "File deleted successfully.";
+            UpdateBlobInfo();
+        }
+        else
+            infoMessage = "File could not be deleted.";
     }
 }
