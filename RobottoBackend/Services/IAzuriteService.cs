@@ -2,10 +2,11 @@ namespace RobottoBackend.Services
 {
     public interface IAzuriteService
     {
-        public Task<bool> CreateBlobFileAsync(string filename, byte[] data);
-        public Task<bool> CreateBlobFileAsync(string filename, Stream stream);
-        public Task<Stream?> GetBlobFileAsync(string filename);
-        public Task<bool> DeleteBlobFileAsync(string filename);
-        public int GetBlobCount();
+        Task<bool> CreateBlobFileAsync(string filename, byte[] data);
+        Task<bool> CreateBlobFileAsync(string filename, Stream stream);
+        Task<Stream?> GetBlobFileAsync(string filename);
+        Task<bool> DeleteBlobFileAsync(string filename);
+        int GetBlobCount();
+        IEnumerable<string> GetBlobNames();
     } 
 }

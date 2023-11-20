@@ -77,8 +77,15 @@ namespace RobottoBackend.Services
 
         public int GetBlobCount()
         {
+            // TODO: make async
             // Gets the number of blobs in a given container
             return _client.GetBlobs().Count();
+        }
+
+        public IEnumerable<string> GetBlobNames()
+        {
+            // TODO: make async
+            return _client.GetBlobs().Select(b => b.Name);
         }
 
         private BlobClient GetBlob(string filename)

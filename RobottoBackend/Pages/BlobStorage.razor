@@ -10,21 +10,46 @@
 <InputFile OnChange="@(async (e) => await UploadFile(e))" />
 <p style="color: red;">@infoMessage</p>
 
-<br/>
 <p role="status">Blob count: @blobCount</p>
+
+@if (blobNames == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Blob Name</th>                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var blobName in blobNames)
+            {
+                <tr>
+                    <td>@blobName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 
 @code {   
     private int blobCount = 0;
     private string infoMessage = "";
+    private IEnumerable<string>? blobNames = null;
 
     protected override void OnInitialized()
     {
-        UpdateBlobCount();
+        UpdateBlobInfo();
     }
 
-    private void UpdateBlobCount()
+    private void UpdateBlobInfo()
     {
         blobCount = AzuriteService.GetBlobCount();
+        blobNames = AzuriteService.GetBlobNames();
     }
 
     private async Task UploadFile(InputFileChangeEventArgs e)
@@ -37,7 +62,7 @@
         if (result)
         {
             infoMessage = "File uploaded successfully.";
-            UpdateBlobCount();
+            UpdateBlobInfo();
         }
         else
             infoMessage = "File could not be uploaded.";
