@@ -7,38 +7,45 @@
 
 <h1>Cosmos DB</h1>
 
-<p>Name: <input @bind="name" /></p>
-<input type="button" class="btn btn-primary" @onclick="(async () => await AddItem())" value="Add" />
-<p style="color: red;">@infoMessage</p>
+<AuthorizeView>
+    <Authorized>
+        <p>Name: <input @bind="name" /></p>
+        <input type="button" class="btn btn-primary" @onclick="(async () => await AddItem())" value="Add" />
+        <p style="color: red;">@infoMessage</p>
 
-@if (items == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th></th>                                                  
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in items)
-            {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                    <td>
-                        <input type="button" class="btn btn-danger" @onclick="(async () => await DeleteItem(item.Id))" value="Delete" />
-                    </td>
-                </tr>                
-            }
-        </tbody>
-    </table>
-}
+        @if (items == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th></th>                                                  
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in items)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <input type="button" class="btn btn-danger" @onclick="(async () => await DeleteItem(item.Id))" value="Delete" />
+                            </td>
+                        </tr>                
+                    }
+                </tbody>
+            </table>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p><em>Please log in to see the content.</em></p>
+    </NotAuthorized>
+</AuthorizeView>
 
 
 @code {

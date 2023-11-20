@@ -6,37 +6,44 @@
 
 <h1>Blob Storage</h1>
 
-<p>Select file to upload:</p>
-<InputFile OnChange="@(async (e) => await UploadFile(e))" />
-<p style="color: red;">@infoMessage</p>
+<AuthorizeView>
+    <Authorized>
+        <p>Select file to upload:</p>
+        <InputFile OnChange="@(async (e) => await UploadFile(e))" />
+        <p style="color: red;">@infoMessage</p>
 
-@if (blobNames == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Blob Name</th>
-                <th></th>                          
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var blobName in blobNames)
-            {
-                <tr>
-                    <td>@blobName</td>
-                    <td>
-                        <input type="button" class="btn btn-danger" @onclick="(async () => await DeleteFile(blobName))" value="Delete" />
-                    </td>
-                </tr>                
-            }
-        </tbody>
-    </table>
-}
-<p role="status"><b>Blob count: </b>@blobCount</p>
+        @if (blobNames == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Blob Name</th>
+                        <th></th>                          
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var blobName in blobNames)
+                    {
+                        <tr>
+                            <td>@blobName</td>
+                            <td>
+                                <input type="button" class="btn btn-danger" @onclick="(async () => await DeleteFile(blobName))" value="Delete" />
+                            </td>
+                        </tr>                
+                    }
+                </tbody>
+            </table>
+        }
+        <p role="status"><b>Blob count: </b>@blobCount</p>
+    </Authorized>
+    <NotAuthorized>
+        <p><em>Please log in to see the content.</em></p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {   
     private int blobCount = 0;
