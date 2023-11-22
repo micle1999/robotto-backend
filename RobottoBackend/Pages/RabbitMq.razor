@@ -1,0 +1,16 @@
+@page "/rabbitmq"
+
+<h1>Rabbit MQ</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <iframe width="1300" height="1000" src="http://localhost:15672/" frameborder="0" ></iframe>
+    </Authorized>
+    <NotAuthorized>
+        <p><em>Please log in to see the content.</em></p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    
+}
