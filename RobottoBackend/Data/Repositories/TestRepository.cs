@@ -5,7 +5,7 @@ namespace RobottoBackend.Data.Repositories
 {
     public class TestRepository : ITestRepository
     {
-        private Container _container;
+        private readonly Container _container;
 
         public TestRepository(
             CosmosClient dbClient,
