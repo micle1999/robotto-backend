@@ -7,6 +7,7 @@ namespace RobottoBackend.Models
         public MissionType Type { get; set; }
         public DateTime Created { get; set; }
         public string Coordinates { get; set; } = ""; // TODO: fix the type
+        public bool IsActive { get; set; }
     }
 
     public enum MissionType
