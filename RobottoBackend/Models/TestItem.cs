@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-﻿namespace RobottoBackend.Models
+namespace RobottoBackend.Models
 {
     public class Item
     {

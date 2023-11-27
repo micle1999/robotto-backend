@@ -1,7 +1,7 @@
 using Microsoft.Azure.Cosmos;
 using RobottoBackend.Models;
 
-namespace RobottoBackend.Services
+namespace RobottoBackend.Data.Repositories
 {
     public class TestRepository : ITestRepository
     {

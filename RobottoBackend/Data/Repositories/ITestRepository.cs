@@ -1,6 +1,6 @@
 using RobottoBackend.Models;
 
-namespace RobottoBackend.Services
+namespace RobottoBackend.Data.Repositories
 {
     public interface ITestRepository
     {
