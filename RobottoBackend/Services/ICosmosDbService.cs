@@ -2,7 +2,7 @@ using RobottoBackend.Models;
 
 namespace RobottoBackend.Services
 {
-    public interface ICosmosDbService
+    public interface ITestRepository
     {
         Task<IEnumerable<Item>> GetItemsAsync(string query);
         Task<Item> GetItemAsync(string id);

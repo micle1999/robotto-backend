@@ -3,11 +3,11 @@ using RobottoBackend.Models;
 
 namespace RobottoBackend.Services
 {
-    public class CosmosDbService : ICosmosDbService
+    public class TestRepository : ITestRepository
     {
         private Container _container;
 
-        public CosmosDbService(
+        public TestRepository(
             CosmosClient dbClient,
             string databaseName,
             string containerName)

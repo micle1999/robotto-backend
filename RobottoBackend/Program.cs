@@ -21,7 +21,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddSingleton<ICosmosDbService>(InitializeCosmosClientInstanceAsync(
+builder.Services.AddSingleton<ITestRepository>(InitializeCosmosClientInstanceAsync(
     builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
 builder.Services.AddSingleton<IAzuriteService>(InitializeAzuriteClientInstanceAsync(
     builder.Configuration.GetSection("Azurite")).GetAwaiter().GetResult());
@@ -53,7 +53,7 @@ app.MapFallbackToPage("/_Host");
 
 app.Run();
 
-static async Task<CosmosDbService> InitializeCosmosClientInstanceAsync(IConfigurationSection configurationSection)
+static async Task<TestRepository> InitializeCosmosClientInstanceAsync(IConfigurationSection configurationSection)
 {
     string databaseName = configurationSection.GetSection("DatabaseName").Value ?? "";
     string containerName = configurationSection.GetSection("ContainerName").Value ?? "";
@@ -75,11 +75,11 @@ static async Task<CosmosDbService> InitializeCosmosClientInstanceAsync(IConfigur
     CosmosClient client;
     client = new CosmosClient(account, key, clientOptions: options);
     
-    CosmosDbService cosmosDbService = new CosmosDbService(client, databaseName, containerName);
+    TestRepository testRepository = new TestRepository(client, databaseName, containerName);
     DatabaseResponse databaseResponse = await client.CreateDatabaseIfNotExistsAsync(databaseName);
     await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
 
-    return cosmosDbService;
+    return testRepository;
 }
 
 static async Task<AzuriteService> InitializeAzuriteClientInstanceAsync(IConfigurationSection configurationSection)

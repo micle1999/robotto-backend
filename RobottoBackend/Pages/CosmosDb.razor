@@ -1,6 +1,6 @@
 @using RobottoBackend.Services
 @using RobottoBackend.Models
-@inject ICosmosDbService CosmosDbService
+@inject ITestRepository TestRepository
 @page "/cosmos-db"
 
 <PageTitle>Cosmos DB</PageTitle>
@@ -63,7 +63,7 @@
         try
         {
             infoMessage = "Adding item...";
-            await CosmosDbService.AddItemAsync(new Item { Name = name, Id = Guid.NewGuid().ToString() });
+            await TestRepository.AddItemAsync(new Item { Name = name, Id = Guid.NewGuid().ToString() });
             infoMessage = "Item added successfully.";
             await UpdateItems();
         }
@@ -78,7 +78,7 @@
         try
         {
             infoMessage = "Deleting item...";
-            await CosmosDbService.DeleteItemAsync(id);
+            await TestRepository.DeleteItemAsync(id);
             infoMessage = "Item deleted successfully.";
             await UpdateItems();
         }
@@ -90,6 +90,6 @@
 
     private async Task UpdateItems()
     {
-        items = await CosmosDbService.GetItemsAsync("SELECT * FROM testcontainer");
+        items = await TestRepository.GetItemsAsync("SELECT * FROM testcontainer");
     }
 }
