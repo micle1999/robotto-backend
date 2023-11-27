@@ -21,10 +21,23 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<ITestRepository>(InitializeCosmosRepositoriesAsync(
+
+builder.Services.AddSingleton<ITestRepository>(InitializeTestRepositoryAsync(
     builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+builder.Services.AddSingleton<IMissionRepository>(InitializeMissionRepositoryAsync(
+    builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+builder.Services.AddSingleton<IResourceRepository>(InitializeResourceRepositoryAsync(
+    builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+builder.Services.AddSingleton<INaturalHazardRepository>(InitializeNaturalHazardRepositoryAsync(
+    builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+builder.Services.AddSingleton<IDroneTelemetryRepository>(InitializeDroneTelemetryRepositoryAsync(
+    builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+builder.Services.AddSingleton<IDroneMetadataRepository>(InitializeDroneMetadataRepositoryAsync(
+    builder.Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult());
+
 builder.Services.AddSingleton<IAzuriteService>(InitializeAzuriteClientInstanceAsync(
     builder.Configuration.GetSection("Azurite")).GetAwaiter().GetResult());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -53,13 +66,87 @@ app.MapFallbackToPage("/_Host");
 
 app.Run();
 
-static async Task<TestRepository> InitializeCosmosRepositoriesAsync(IConfigurationSection configurationSection)
+static async Task<TestRepository> InitializeTestRepositoryAsync(IConfigurationSection configurationSection)
 {
     string databaseName = configurationSection.GetSection("DatabaseName").Value ?? "";
-    string containerName = configurationSection.GetSection("ContainerName").Value ?? "";
-    string account = configurationSection.GetSection("Account").Value ?? "";
+    string containerName = configurationSection.GetSection("TestContainerName").Value ?? "";
+    var client = GetCosmosDbClient(configurationSection);
+    
+    TestRepository repository = new TestRepository(client, databaseName, containerName);
+    DatabaseResponse databaseResponse = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+    await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
 
-    // If key is not set, assume we're using managed identity
+    return repository;
+}
+
+static async Task<MissionRepository> InitializeMissionRepositoryAsync(IConfigurationSection configurationSection)
+{
+    string databaseName = configurationSection.GetSection("DatabaseName").Value ?? "";
+    string containerName = configurationSection.GetSection("MissionContainerName").Value ?? "";
+    var client = GetCosmosDbClient(configurationSection);
+    
+    MissionRepository repository = new MissionRepository(client, databaseName, containerName);
+    DatabaseResponse databaseResponse = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+    await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+    return repository;
+}
+
+static async Task<ResourceRepository> InitializeResourceRepositoryAsync(IConfigurationSection configurationSection)
+{
+    string databaseName = configurationSection.GetSection("DatabaseName").Value ?? "";
+    string containerName = configurationSection.GetSection("ResourceContainerName").Value ?? "";
+    var client = GetCosmosDbClient(configurationSection);
+    
+    ResourceRepository repository = new ResourceRepository(client, databaseName, containerName);
+    DatabaseResponse databaseResponse = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+    await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+    return repository;
+}
+
+static async Task<NaturalHazardRepository> InitializeNaturalHazardRepositoryAsync(IConfigurationSection configurationSection)
+{
+    string databaseName = configurationSection.GetSection("DatabaseName").Value ?? "";
+    string containerName = configurationSection.GetSection("NaturalHazardContainerName").Value ?? "";
+    var client = GetCosmosDbClient(configurationSection);
+    
+    NaturalHazardRepository repository = new NaturalHazardRepository(client, databaseName, containerName);
+    DatabaseResponse databaseResponse = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+    await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+    return repository;
+}
+
+static async Task<DroneMetadataRepository> InitializeDroneMetadataRepositoryAsync(IConfigurationSection configurationSection)
+{
+    string databaseName = configurationSection.GetSection("DatabaseName").Value ?? "";
+    string containerName = configurationSection.GetSection("DroneMetadataContainerName").Value ?? "";
+    var client = GetCosmosDbClient(configurationSection);
+    
+    DroneMetadataRepository repository = new DroneMetadataRepository(client, databaseName, containerName);
+    DatabaseResponse databaseResponse = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+    await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+    return repository;
+}
+
+static async Task<DroneTelemetryRepository> InitializeDroneTelemetryRepositoryAsync(IConfigurationSection configurationSection)
+{
+    string databaseName = configurationSection.GetSection("DatabaseName").Value ?? "";
+    string containerName = configurationSection.GetSection("DroneTelemetryContainerName").Value ?? "";
+    var client = GetCosmosDbClient(configurationSection);
+    
+    DroneTelemetryRepository repository = new DroneTelemetryRepository(client, databaseName, containerName);
+    DatabaseResponse databaseResponse = await client.CreateDatabaseIfNotExistsAsync(databaseName);
+    await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
+
+    return repository;
+}
+
+static CosmosClient GetCosmosDbClient(IConfigurationSection configurationSection)
+{    
+    string account = configurationSection.GetSection("Account").Value ?? "";
     string key = configurationSection.GetSection("Key").Value ?? "";
 
     CosmosClientOptions options = new ()
@@ -72,14 +159,7 @@ static async Task<TestRepository> InitializeCosmosRepositoriesAsync(IConfigurati
         LimitToEndpoint = true
     };
     
-    CosmosClient client;
-    client = new CosmosClient(account, key, clientOptions: options);
-    
-    TestRepository testRepository = new TestRepository(client, databaseName, containerName);
-    DatabaseResponse databaseResponse = await client.CreateDatabaseIfNotExistsAsync(databaseName);
-    await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
-
-    return testRepository;
+    return new CosmosClient(account, key, clientOptions: options);
 }
 
 static async Task<AzuriteService> InitializeAzuriteClientInstanceAsync(IConfigurationSection configurationSection)
