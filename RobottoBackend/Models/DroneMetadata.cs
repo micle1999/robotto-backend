@@ -2,8 +2,8 @@ namespace RobottoBackend.Models
 {
     public class DroneMetadata
     {
-        public Guid Id { get; set; }
-        public Guid DroneId { get; set; }
-        public Guid ActiveMissionId { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string DroneId { get; set; } = "";
+        public string ActiveMissionId { get; set; } = "";
     }
 }
