@@ -7,5 +7,6 @@ namespace RobottoBackend.Data.Repositories
         Task AddItemAsync(T item);
         Task UpdateItemAsync(string id, T item);
         Task DeleteItemAsync(string id);
+        Task SeedMockData(int limit);
     }
 }

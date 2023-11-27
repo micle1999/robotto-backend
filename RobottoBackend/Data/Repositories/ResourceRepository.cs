@@ -1,3 +1,4 @@
+using AutoFixture;
 using Microsoft.Azure.Cosmos;
 using RobottoBackend.Models;
 
@@ -56,6 +57,17 @@ namespace RobottoBackend.Data.Repositories
         public async Task UpdateItemAsync(string id, Resource item)
         {
             await _container.UpsertItemAsync<Resource>(item, new PartitionKey(id));
+        }
+
+        public async Task SeedMockData(int limit)
+        {
+            var fixture = new Fixture();
+
+            for (int i = 0; i < limit; i++)
+            {
+                var item = fixture.Create<Resource>();
+                await AddItemAsync(item);
+            }
         }
     }
 }

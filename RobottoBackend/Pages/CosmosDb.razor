@@ -55,6 +55,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await TestRepository.SeedMockData(2);
         await UpdateItems();
     }
 
