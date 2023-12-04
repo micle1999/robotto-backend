@@ -6,4 +6,18 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<br/><br/>
+
+<RadzenButton Text="@text" Click="@ButtonClicked"></RadzenButton>
+
+@code {
+  string text = "Hello";
+
+  void ButtonClicked()
+  {
+    if (text == "World")
+        text = "Hello";
+    else
+        text = "World";
+  }
+}

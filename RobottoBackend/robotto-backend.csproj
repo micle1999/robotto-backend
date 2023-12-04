@@ -21,6 +21,7 @@
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.36.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3" />
+    <PackageReference Include="Radzen.Blazor" Version="4.22.1" />
   </ItemGroup>
 
 </Project>

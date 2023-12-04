@@ -6,6 +6,7 @@ using robotto_backend.Data;
 using RobottoBackend.Services;
 using RobottoBackend.Data.Repositories;
 using RobottoBackend.Helpers;
+using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,8 @@ builder.Services.AddSingleton<IDroneMetadataRepository>(StartupHelpers.Initializ
 
 builder.Services.AddSingleton<IAzuriteService>(StartupHelpers.InitializeAzuriteClientInstanceAsync(
     builder.Configuration.GetSection("Azurite")).GetAwaiter().GetResult());
+
+builder.Services.AddRadzenComponents();
 
 var app = builder.Build();
 
