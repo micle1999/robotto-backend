@@ -1,7 +1,10 @@
+using Newtonsoft.Json;
+
 namespace RobottoBackend.Models
 {
     public class Mission
     {
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Name { get; set; } = "";
         public MissionType Type { get; set; }
@@ -23,6 +26,7 @@ namespace RobottoBackend.Models
     public enum MissionType
     {
         Unknown,
-        Fire
+        Fire,
+        Elephant
     }
 }

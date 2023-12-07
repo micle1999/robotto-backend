@@ -1,7 +1,10 @@
+using Newtonsoft.Json;
+
 namespace RobottoBackend.Models
 {
     public class NaturalHazard
     {
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string MissionId { get; set; } = "";
         public NaturalHazardType Type { get; set; }

@@ -1,23 +1,14 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Robotto Command Center</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Robotto Command Center</h1>
 
-Welcome to your new app.
-
-<br/><br/>
-
-<RadzenButton Text="@text" Click="@ButtonClicked"></RadzenButton>
+<br/> <br/>
+<h2>Mission Overview</h2>
+<br/>
+<MissionOverview></MissionOverview>
 
 @code {
-  string text = "Hello";
-
-  void ButtonClicked()
-  {
-    if (text == "World")
-        text = "Hello";
-    else
-        text = "World";
-  }
+  
 }

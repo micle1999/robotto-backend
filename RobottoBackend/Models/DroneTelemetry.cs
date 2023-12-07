@@ -1,7 +1,10 @@
+using Newtonsoft.Json;
+
 namespace RobottoBackend.Models
 {
     public class DroneTelemetry
     {
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; } = Guid.NewGuid().ToString();
         public string MissionId { get; set; } = "";
         public float HomePointAltitude { get; set; }

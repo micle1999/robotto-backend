@@ -1,0 +1,27 @@
+@using Microsoft.EntityFrameworkCore
+@using RobottoBackend.Data.Repositories
+@using RobottoBackend.Models
+@inject IMissionRepository MissionRepository
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+    Data="@missions" TItem="Mission" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Mission" Property="Id" Filterable="true" Title="Id" Frozen="false" Width="80px" TextAlign="TextAlign.Left" /> 
+        <RadzenDataGridColumn TItem="Mission" Property="Name" Filterable="true" Title="Name" Frozen="false" Width="80px" TextAlign="TextAlign.Left" />
+        <RadzenDataGridColumn TItem="Mission" Property="Type" Filterable="true" Title="Type" Frozen="false" Width="80px" TextAlign="TextAlign.Left" />
+        <RadzenDataGridColumn TItem="Mission" Property="Created" Filterable="true" Title="Creation Date" Frozen="false" Width="80px" TextAlign="TextAlign.Left" />
+        <RadzenDataGridColumn TItem="Mission" Property="IsActive" Filterable="true" Title="Active?" Frozen="false" Width="80px" TextAlign="TextAlign.Left" />                            
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    IEnumerable<Mission> missions = new List<Mission>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+ 
+        await MissionRepository.SeedMockData(5);
+        missions = await MissionRepository.GetItemsAsync("SELECT * FROM mission");
+    }
+}
