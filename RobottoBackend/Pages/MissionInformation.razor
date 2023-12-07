@@ -13,7 +13,7 @@
                         <RadzenDropDown Style="width:300px" TValue="string" @bind-Value="Id" Placeholder="Select mission" AllowFiltering="true" 
                             Data="@(missions)" TextProperty="Name" ValueProperty="Id" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select mission" }})" />
                     </RadzenCard>
-                </div>                
+                </div>            
             </div>
         </div>
     </Authorized>
@@ -25,6 +25,11 @@
 @code {
     IEnumerable<Mission> missions = new List<Mission>();
     string Id = "";
+
+    public void SetMissionId(string missionId)
+    {
+        Id = missionId;
+    }
 
     protected override async Task OnInitializedAsync()
     {

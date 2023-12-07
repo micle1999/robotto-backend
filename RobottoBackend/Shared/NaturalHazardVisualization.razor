@@ -1,0 +1,83 @@
+@using Microsoft.EntityFrameworkCore
+@using RobottoBackend.Data.Repositories
+@using RobottoBackend.Models
+@using System.Linq
+@using System.Collections.Generic
+@inject INaturalHazardRepository NaturalHazardRepository
+
+<div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-6 offset-lg-3 my-5">
+            <RadzenChart>
+                <RadzenPieSeries Data="@items" Title="Count" CategoryProperty="TypeString" ValueProperty="Count">
+                    <RadzenSeriesDataLabels Visible="true" />
+                </RadzenPieSeries>
+            </RadzenChart>
+        </div>
+    </div>
+</div>
+
+@code {
+    IEnumerable<NaturalHazard> naturalHazards = new List<NaturalHazard>();
+    List<DataItem> items = new List<DataItem>();   
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+ 
+        @* await NaturalHazardRepository.SeedMockData(10);
+        naturalHazards = await NaturalHazardRepository.GetItemsAsync("SELECT * FROM naturalhazard");
+
+        foreach (var naturalHazard in naturalHazards)
+        {
+            if (!items.Any(i => i.Type == naturalHazard.Type))
+            {
+                items.Add(new DataItem(naturalHazard.Type, 1));
+            }
+            else
+            {
+                items.First(i => i.Type == naturalHazard.Type).Count++;
+            }
+        } *@
+
+        items = new List<DataItem> {
+            new DataItem
+            {
+                Type = NaturalHazardType.Fire,
+                Count = 3000
+            },
+            new DataItem
+            {
+                Type = NaturalHazardType.Earthquake,
+                Count = 4000
+            },
+            new DataItem
+            {
+                Type = NaturalHazardType.Flood,
+                Count = 5000
+            },
+            new DataItem
+            {
+                Type = NaturalHazardType.Unknown,
+                Count = 1000
+            },
+        };
+    }
+
+    public class DataItem
+    {
+        public NaturalHazardType Type { get; set; }
+        public string TypeString => Enum.GetName(typeof(NaturalHazardType), Type) ?? "fuck you";
+        public int Count { get; set; }
+
+        public DataItem()
+        {            
+        }
+
+        public DataItem(NaturalHazardType type, int count)
+        {
+            Type = type;
+            Count = count;
+        }
+    }
+}
