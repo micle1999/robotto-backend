@@ -21,7 +21,7 @@
     {
         await base.OnInitializedAsync();
  
-        await MissionRepository.SeedMockData(5);
+        await MissionRepository.SeedMockData(2);
         missions = await MissionRepository.GetItemsAsync("SELECT * FROM mission");
     }
 }

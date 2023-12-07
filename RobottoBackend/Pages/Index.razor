@@ -2,12 +2,19 @@
 
 <PageTitle>Robotto Command Center</PageTitle>
 
-<h1>Robotto Command Center</h1>
+<AuthorizeView>
+    <Authorized>
+      <h1>Robotto Command Center</h1>
 
-<br/> <br/>
-<h2>Mission Overview</h2>
-<br/>
-<MissionOverview></MissionOverview>
+      <br/> <br/>
+      <h2>Mission Overview</h2>
+      <br/>
+      <MissionOverview></MissionOverview>
+    </Authorized>
+    <NotAuthorized>
+        <p><em>Please log in to see the content.</em></p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
   
