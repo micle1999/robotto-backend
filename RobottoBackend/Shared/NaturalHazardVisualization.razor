@@ -67,7 +67,7 @@
     public class DataItem
     {
         public NaturalHazardType Type { get; set; }
-        public string TypeString => Enum.GetName(typeof(NaturalHazardType), Type);
+        public string TypeString => Enum.GetName(typeof(NaturalHazardType), Type) ?? "";
         public int Count { get; set; }
 
         public DataItem()
