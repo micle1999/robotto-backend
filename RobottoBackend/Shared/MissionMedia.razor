@@ -2,7 +2,7 @@
 @using RobottoBackend.Models
 @inject IMissionRepository MissionRepository
 
-@if (missionImages != null && missionImages.Any())
+@if (!string.IsNullOrEmpty(MissionId))
 {
     <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Wrap="FlexWrap.Wrap" Class="rz-mx-auto rz-my-12">
         @foreach (var image in missionImages)
@@ -37,12 +37,19 @@
         "https://www.startpage.com/av/proxy-image?piurl=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F2%2F23%2FBugaboo_forest_fire.jpg&sp=1702219430T10614457c5ba8c20c2d6ee9a5640e220eca65f341e5080881f5d2ce661e0ed00",
         "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.2TstINfR96e3nnGdVRvnaQHaEK%26pid%3DApi&sp=1702219430Te447beaee1d9f1c1e99430f263892c16cde50f38984edb395d78cf54568063fc"
     };
-    string[] missionImages = new string[5];
+    string[] missionImages = new string[3];
 
-    public void SetMissionId(string missionId)
+    protected override void OnInitialized()
+    {
+        for (int i = 0; i < missionImages.Length; i++)
+        {
+            missionImages[i] = allImages[i];
+        }
+    }
+
+        public void SetMissionId(string missionId)
     {
         MissionId = missionId;
-        StateHasChanged();
     }
 
     protected override void OnAfterRender(bool firstRender)
