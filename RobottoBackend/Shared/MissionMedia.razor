@@ -1,0 +1,59 @@
+@using RobottoBackend.Data.Repositories
+@using RobottoBackend.Models
+@inject IMissionRepository MissionRepository
+
+@if (missionImages != null && missionImages.Any())
+{
+    <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Wrap="FlexWrap.Wrap" Class="rz-mx-auto rz-my-12">
+        @foreach (var image in missionImages)
+        {
+            <RadzenImage Path="@image" Style="height: 15rem;" AlternateText="url image" />
+        }
+    </RadzenStack>
+}
+
+@code {
+    [Parameter] public string MissionId { get; set; } = "";
+    string[] allImages = { 
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fcdn.thewire.in%2Fwp-content%2Fuploads%2F2021%2F04%2F06083549%2F2021_4img05_Apr_2021_PTI04_05_2021_000119B-scaled.jpg&sp=1702216192Tebb1ffe9875b29c5c38944c5c719968a6488755ae08580526509e862a8d92ef3", 
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fimages.hindustantimes.com%2Fimg%2F2021%2F04%2F03%2F1600x900%2F20210402063L_1617476113953_1617476124296.jpg&sp=1702216192T260edd83434fbfb07f2e3d4c9dca466bf04ebbd604cdb13474ba4f5ecbe3a1d5",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fcdn.britannica.com%2F15%2F128615-050-E26E160E%2FZaca-wildfire-Santa-Barbara-county-California-2007.jpg&sp=1702216192Tc0e9e185ebd22274a27a093fa9b1e7792bf652827414ccbcdce7cef44a229cc5",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fwww.rcinet.ca%2Feye-on-the-arctic%2Fwp-content%2Fuploads%2Fsites%2F30%2F2018%2F07%2Fsweden-forest-fire-ljusdal-e1549560049853.jpg&sp=1702216192T2740647e0c566ce972a503db7cc6f551ef22b64700fb67d391a33d408bf4fc68",
+        "https://www.startpage.com/av/proxy-image?piurl=http%3A%2F%2Fmediad.publicbroadcasting.net%2Fp%2Fkwmu%2Ffiles%2Fstyles%2Fx_large%2Fpublic%2F201701%2Flouisiana-forest-fire.jpg&sp=1702216192Tda017b8b78939d6193911575344938869dbcd2d4c617695afb4085ca1b9476cb",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.EZ1PI0OTooY3se2n-nrjPgHaE8%26pid%3DApi&sp=1702216192T42e1d1138459a5cfcd15885b9cb3735214e7165c1ec31853b36bd6b5b3c12a72",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fimg.apmcdn.org%2F026d5800ee9a530bf566f8ae29d66d117a66b32a%2Fwidescreen%2F3396b6-20210814-fire01-2000.jpg&sp=1702216192T787f62046a6e2db9c41ef50c1d4260fc8bcf50becf44685e2907f728c882dce3",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.BD4U2EnpZWUZYCFtJS3YzgHaEd%26pid%3DApi&sp=1702216192Tb8b600b537e618109dbd80fcff15e2077da73425c6f79b1261e23a550d4e7c8a",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fidahonews.com%2Fresources%2Fmedia2%2Foriginal%2Ffull%2F1600%2Fcenter%2F80%2F30b27b6d-fc2e-4241-b614-793a0c4a67cb-Idaho_Forest_Fire30.jpeg&sp=1702216192T6679e0fd79a7acabb029d5e958be55d43e7469de49b17ae5dae118ccc394deca",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fcdn.vox-cdn.com%2Fthumbor%2FQdumuhrKNYT9j6yr2rPRjnAHXXk%3D%2F0x0%3A5737x3824%2F1200x0%2Ffilters%3Afocal%280x0%3A5737x3824%29%3Ano_upscale%28%29%2Fcdn.vox-cdn.com%2Fuploads%2Fchorus_asset%2Ffile%2F11903333%2FGettyImages_1008050668.jpg&sp=1702216192T11494d8ffed28a1499048f2a819e2ca7b95c6f9ca1b0cc1764fec3306b1e6d61",
+        "https://www.startpage.com/av/proxy-image?piurl=http%3A%2F%2Fcontent.11alive.com%2Fphoto%2F2016%2F11%2F18%2FSmoke_1479490100737_7071311_ver1.0.jpeg&sp=1702216192Tb14553f2754817665520d2ef5d46f1a00a9f6729971274093671db2c0b30937f",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fimgs.mongabay.com%2Fwp-content%2Fuploads%2Fsites%2F20%2F2020%2F07%2F23110144%2FGP1SU5IX_PressMedia.jpg&sp=1702216192T4f4efc3f8afdc222f07b38fa6e76dc4c54bd7fdcf749c96f252e93ff42b1f55e",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fimgs.mongabay.com%2Fwp-content%2Fuploads%2Fsites%2F20%2F2020%2F07%2F23143643%2FGP1SU5J0_PressMedia.jpg&sp=1702216192T6a79939024f3e9c13346c6af8a47546f66c733c0311238e4ef3ad5a18a50695d",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fresearch.arizona.edu%2Fsites%2Fdefault%2Ffiles%2Fwildfire-cover-2.jpg&sp=1702216192T71c5ca32636a4f11de9792eaa4ab93fafd457d2d9eeb6f2515283dcbb32552f8",
+        "https://www.startpage.com/av/proxy-image?piurl=http%3A%2F%2Fcontent.11alive.com%2Fphoto%2F2016%2F11%2F18%2FSmoke_1479490100737_7071311_ver1.0.jpeg&sp=1702216586Td0f54d8611a24565c4ab192617e7741d4af50c271db459fafd29605cfb7f7371",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.3bCcQBmLOB5vdVGhyjRrdAHaFj%26pid%3DApi&sp=1702216586T96a899e7c98d62571083fbf688fbe80b7653b03b35879c7fd20de528eca3b0d9",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fnews-centre.uwinnipeg.ca%2Fwp-content%2Fuploads%2F2018%2F06%2Ffire.jpg&sp=1702216586T400b9b698dc08663c5b4e5fef4e7219dd663c57148a07f730e3e83eb93a70b56",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2F1.bp.blogspot.com%2F-zVJgVpv8Nrc%2FUR3CCmlDtqI%2FAAAAAAAAAXk%2F1BdbRdImAT8%2Fs1600%2FSadhokonda%2Bfire%2B1.JPG&sp=1702216586Tc293d231ca4a3ba65ae1abbab134ba34e1372d49d190256b6964a3f84b5f228d",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fmetro.co.uk%2Fwp-content%2Fuploads%2F2016%2F07%2Fad_213954899.jpg%3Fquality%3D80%26strip%3Dall&sp=1702219430T44160907757f165248ff816dd22d3b1db5108e0f5497b8bfde8d3c38b944cd17",
+        "https://www.startpage.com/av/proxy-image?piurl=http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F2%2F23%2FBugaboo_forest_fire.jpg&sp=1702219430T10614457c5ba8c20c2d6ee9a5640e220eca65f341e5080881f5d2ce661e0ed00",
+        "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.2TstINfR96e3nnGdVRvnaQHaEK%26pid%3DApi&sp=1702219430Te447beaee1d9f1c1e99430f263892c16cde50f38984edb395d78cf54568063fc"
+    };
+    string[] missionImages = new string[5];
+
+    public void SetMissionId(string missionId)
+    {
+        MissionId = missionId;
+        StateHasChanged();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        int startIndex = MissionId.GetHashCode() % (allImages.Length - missionImages.Length);
+        if (startIndex < 0)
+            startIndex += (allImages.Length - missionImages.Length);
+        
+        for (int i = 0; i < missionImages.Length; i++)
+        {
+            missionImages[i] = allImages[startIndex + i];
+        }
+    }
+}

@@ -6,15 +6,25 @@
 <AuthorizeView>
     <Authorized>
         <div class="container-fluid">
+            <h1>Mission Information</h1>
             <div class="row">
                 <div class="col-xl-6 mb-4">
                     <RadzenCard>
                         <RadzenText TextStyle="TextStyle.H6" TagName="TagName.H3">Missions</RadzenText>
-                        <RadzenDropDown Style="width:300px" TValue="string" @bind-Value="Id" Placeholder="Select mission" AllowFiltering="true" 
+                        <RadzenDropDown Style="width:300px" TValue="string" @bind-Value="MissionId" Placeholder="Select mission" AllowFiltering="true" 
                             Data="@(missions)" TextProperty="Name" ValueProperty="Id" InputAttributes="@(new Dictionary<string,object>(){ { "aria-label", "Select mission" }})" />
                     </RadzenCard>
                 </div>            
             </div>
+            @if (!string.IsNullOrWhiteSpace(MissionId))
+            {
+                <h3>
+                    Media
+                </h3>
+                <div>
+                    <MissionMedia MissionId="@MissionId"></MissionMedia>
+                </div>
+            }            
         </div>
     </Authorized>
     <NotAuthorized>
@@ -24,12 +34,7 @@
 
 @code {
     IEnumerable<Mission> missions = new List<Mission>();
-    string Id = "";
-
-    public void SetMissionId(string missionId)
-    {
-        Id = missionId;
-    }
+    string MissionId = "";
 
     protected override async Task OnInitializedAsync()
     {
